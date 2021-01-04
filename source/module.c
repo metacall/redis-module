@@ -123,9 +123,9 @@ int RedisModule_OnLoad(RedisModuleCtx * ctx, RedisModuleString * argv[], int arg
 		return REDISMODULE_ERR;
 	}
 
-	if (RedisModule_CreateCommand(ctx, "invoke", MetaCall_RedisCommand, "write", 0, -1, 1) == REDISMODULE_ERR)
+	if (RedisModule_CreateCommand(ctx, "metacall", MetaCall_RedisCommand, "write", 0, -1, 1) == REDISMODULE_ERR)
 	{
-		RedisModule_Log(ctx, "warning", "Failed to create MetaCall invoke commmand.");
+		RedisModule_Log(ctx, "warning", "Failed to create MetaCall commmand.");
 		return REDISMODULE_ERR;
 	}
 

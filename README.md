@@ -28,9 +28,9 @@ docker exec -it metacall_redis redis-cli
 
 Once inside of the redis-cli, we can do some invokations:
 ```sh
-127.0.0.1:6379> invoke getDate
+127.0.0.1:6379> metacall getDate
 Tue, 25 Dec 52981 04:06:38 GMT
-127.0.0.1:6379> invoke sum 3 4
+127.0.0.1:6379> metacall sum 3 4
 7
 ```
 
