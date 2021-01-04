@@ -24,8 +24,8 @@ WORKDIR /redis
 COPY . .
 
 RUN make \
-    && cd examples \
-    && npm install
+	&& cd examples \
+	&& npm install
 
 FROM metacall/core:runtime AS runtime
 
@@ -34,4 +34,12 @@ FROM redis:6.0.9-buster AS redis
 ENV LOADER_LIBRARY_PATH=/usr/local/lib/
 
 COPY --from=runtime /usr/local/lib/ /usr/local/lib/
-COPY --from=builder /redis/build/metacallredis.so metacallredis.so
+COPY --from=builder /redis/build/metacallredis.so /usr/local/lib/metacallredis.so
+COPY --from=builder /redis/examples/ /scripts/
+
+RUN mkdir -p /usr/local/etc/redis/ \
+	&& echo "loadmodule /usr/local/lib/metacallredis.so /scripts" >> /usr/local/etc/redis/redis.conf \
+	&& cd /usr/local/lib/ \
+	&& ldconfig
+
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
