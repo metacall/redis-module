@@ -33,9 +33,9 @@ INCLUDES=-I/usr/local/include -I./source -I./includes
 all:
 	@mkdir -p build
 	@$(CXX) $(CXXFLAGS) $(OBJ_CXXFLAGS) $(INCLUDES) -fPIC -c source/filesystem.cpp -lstdc++fs -lmetacall -o build/filesystem.o
-	@$(CC) $(CFLAGS) $(OBJ_CFLAGS) $(INCLUDES) -fPIC -c source/redis-api.c -lmetacall -o build/redis-api.o
+	@$(CC) $(CFLAGS) $(OBJ_CFLAGS) $(INCLUDES) -fPIC -c source/redis_api.c -lmetacall -o build/redis_api.o
 	@$(CC) $(CFLAGS) $(OBJ_CFLAGS) $(INCLUDES) -fPIC -c source/module.c -lmetacall -o build/module.o
-	@$(CXX) -o build/metacallredis.so build/filesystem.o build/redis-api.o build/module.o $(OBJ_LDFLAGS) -lstdc++fs -lmetacall
+	@$(CXX) -o build/metacallredis.so build/filesystem.o build/redis_api.o build/module.o $(OBJ_LDFLAGS) -lstdc++fs -lmetacall
 
 clean:
 	@rm -rf build/

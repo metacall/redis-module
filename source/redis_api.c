@@ -20,7 +20,7 @@
 
 /* -- Headers -- */
 
-#include <redis-api.h>
+#include <redis_api.h>
 
 #include <assert.h>
 #include <stdlib.h>
