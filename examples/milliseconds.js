@@ -27,7 +27,7 @@ function getDate() {
 }
 
 function sum(left, right) {
-	return Number(left) + Number(right);
+	return String(Number(left) + Number(right));
 }
 
 module.exports = {
