@@ -21,13 +21,17 @@
 #ifndef METACALL_REDIS_MODULE_FILESYSTEM_H
 #define METACALL_REDIS_MODULE_FILESYSTEM_H 1
 
+/* -- Headers -- */
+
+#include <redismodule.h>
+
 /* -- Methods -- */
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-int fs_load_scripts(const char * path);
+int fs_load_scripts(RedisModuleCtx * ctx, const char * path);
 
 #ifdef __cplusplus
 }

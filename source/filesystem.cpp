@@ -23,7 +23,6 @@
 #include <filesystem.h>
 
 #include <string>
-#include <iostream>
 #include <filesystem>
 #include <map>
 
@@ -55,9 +54,11 @@ static ext_to_tag_map ext_to_tag =
 
 /* -- Methods -- */
 
-int fs_load_scripts(const char * path)
+int fs_load_scripts(RedisModuleCtx * ctx, const char * path)
 {
 	namespace fs = std::filesystem;
+
+	RedisModule_Log(ctx, "notice", "Loading all scripts from: %s", path);
 
 	for (const auto & entry : fs::directory_iterator(std::string(path)))
 	{
@@ -66,9 +67,15 @@ int fs_load_scripts(const char * path)
 		std::string tag = ext_to_tag[extension];
 		const char * paths[] = { script.c_str() };
 
-		if (metacall_load_from_file(tag.c_str(), paths, 1, NULL) != 0)
+		if (tag != "")
 		{
-			return 1;
+			RedisModule_Log(ctx, "notice", "Loading script (%s) with loader tag: %s", script.c_str(), tag.c_str());
+
+			if (metacall_load_from_file(tag.c_str(), paths, 1, NULL) != 0)
+			{
+				RedisModule_Log(ctx, "warning", "Failed to load script (%s) with loader tag: %s", script.c_str(), tag.c_str());
+				return 1;
+			}
 		}
 	}
 

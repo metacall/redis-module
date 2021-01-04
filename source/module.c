@@ -92,40 +92,40 @@ int RedisModule_OnLoad(RedisModuleCtx * ctx, RedisModuleString * argv[], int arg
 {
 	if (argc != 1)
 	{
-		RedisModule_Log(ctx, "warning", "Incorrect number of arguments passed to MetaCall Redis Module.\n");
+		RedisModule_Log(ctx, "warning", "Incorrect number of arguments passed to MetaCall Redis Module.");
 		return REDISMODULE_ERR;
 	}
 
 	if (RedisModule_Init(ctx, "metacall", 1, REDISMODULE_APIVER_1) == REDISMODULE_ERR)
 	{
-		RedisModule_Log(ctx, "warning", "Failed to initialize Redis Module.\n");
+		RedisModule_Log(ctx, "warning", "Failed to initialize Redis Module.");
 		return REDISMODULE_ERR;
 	}
 
 	if (metacall_initialize() != 0)
 	{
-		RedisModule_Log(ctx, "warning", "Failed to initialize MetaCall.\n");
+		RedisModule_Log(ctx, "warning", "Failed to initialize MetaCall.");
 		return REDISMODULE_ERR;
 	}
 
 	if (redis_api_register(ctx) != 0)
 	{
-		RedisModule_Log(ctx, "warning", "Failed to register Redis API into MetaCall.\n");
+		RedisModule_Log(ctx, "warning", "Failed to register Redis API into MetaCall.");
 		return REDISMODULE_ERR;
 	}
 
 	size_t length = 0;
 	const char * path = RedisModule_StringPtrLen(argv[0], &length);
 
-	if (fs_load_scripts(path) != 0)
+	if (fs_load_scripts(ctx, path) != 0)
 	{
-		RedisModule_Log(ctx, "warning", "Failed to load scripts from folder: %s\n", path);
+		RedisModule_Log(ctx, "warning", "Failed to load scripts from folder: %s", path);
 		return REDISMODULE_ERR;
 	}
 
 	if (RedisModule_CreateCommand(ctx, "invoke", MetaCall_RedisCommand, "write", 0, -1, 1) == REDISMODULE_ERR)
 	{
-		RedisModule_Log(ctx, "warning", "Failed to create MetaCall invoke commmand.\n");
+		RedisModule_Log(ctx, "warning", "Failed to create MetaCall invoke commmand.");
 		return REDISMODULE_ERR;
 	}
 
